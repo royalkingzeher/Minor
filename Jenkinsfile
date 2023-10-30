@@ -4,12 +4,17 @@ pipeline {
         maven 'MAVEN_HOME'
     }
     stages {
-            stage('Stage 1 : test Stage'){
+            stage('Stage 1 : Clean stage'){
+                steps{
+                    sh 'mvn clean'
+                }
+            }
+            stage('Stage 2 : test Stage'){
                 steps{
                     sh 'mvn test'
                 }
             }
-            stage('Stage 2 : Install stage'){
+            stage('Stage 3 : Install stage'){
                 steps{
                     sh 'mvn install'
                 }

@@ -1,6 +1,6 @@
 pipeline {
     agent any
-   
+    
     environment {
         MAVEN_HOME = tool 'Maven'
     }
@@ -8,27 +8,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git https://github.com/royalkingzeher/Minor.git
+                git 'https://github.com/royalkingzeher/Minor'
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
                 script {
-                    // Set the Maven path and execute Maven commands
-                    def mavenHome = tool 'Maven'
-                    def mavenCMD = "${mavenHome}/bin/mvn"
-                    sh "${mavenCMD} clean install"
-                }
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                script {
-                    def mavenHome = tool 'Maven'
-                    def mavenCMD = "${mavenHome}/bin/mvn"
-                    sh "${mavenCMD} test"
+                    // Use the 'withMaven' step to handle Maven configurations
+                    withMaven(maven: 'Maven') {
+                        sh 'mvn clean install test'
+                    }
                 }
             }
         }
@@ -44,6 +34,7 @@ pipeline {
         stage('Package') {
             steps {
                 script {
+                    // Add commands to package the application (e.g., create JAR or WAR)
                 }
             }
         }
@@ -51,6 +42,7 @@ pipeline {
         stage('Deploy to Test Environment') {
             steps {
                 script {
+                    // Add commands to deploy to a test environment
                 }
             }
         }
@@ -58,6 +50,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
+                    // Add commands to deploy to production
                 }
             }
         }
@@ -65,11 +58,12 @@ pipeline {
 
     post {
         success {
+            // Actions to be performed if the pipeline is successful
             echo 'Pipeline succeeded! Deploying to production...'
         }
         failure {
+            // Actions to be performed if the pipeline fails
             echo 'Pipeline failed! Notify the team...'
         }
     }
 }
-

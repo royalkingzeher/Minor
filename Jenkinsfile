@@ -1,28 +1,75 @@
 pipeline {
     agent any
-    tools {
-        maven 'MAVEN_HOME'
+   
+    environment {
+        MAVEN_HOME = tool 'Maven'
     }
+
     stages {
-            stage('Stage 1 : Clean stage'){
-                steps{
-                    sh  'mvn clean'
+        stage('Checkout') {
+            steps {
+                git https://github.com/royalkingzeher/Minor.git
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Set the Maven path and execute Maven commands
+                    def mavenHome = tool 'Maven'
+                    def mavenCMD = "${mavenHome}/bin/mvn"
+                    sh "${mavenCMD} clean install"
                 }
             }
-            stage('Stage 2 : test Stage'){
-                steps{
-                    sh 'mvn test'
+        }
+
+        stage('Unit Tests') {
+            steps {
+                script {
+                    def mavenHome = tool 'Maven'
+                    def mavenCMD = "${mavenHome}/bin/mvn"
+                    sh "${mavenCMD} test"
                 }
             }
-            stage('Stage 3 : Install stage'){
-                steps{
-                    sh 'mvn install'
+        }
+
+        stage('Integration Tests') {
+            steps {
+                script {
+                    // Add commands for integration tests if needed
                 }
             }
-            stage('Stage Final : Build Sucess'){
-                steps{
-                    echo 'Build Sucessfull'
+        }
+
+        stage('Package') {
+            steps {
+                script {
                 }
             }
+        }
+
+        stage('Deploy to Test Environment') {
+            steps {
+                script {
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                script {
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline succeeded! Deploying to production...'
+        }
+        failure {
+            echo 'Pipeline failed! Notify the team...'
+        }
     }
 }
+

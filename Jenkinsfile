@@ -14,44 +14,34 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                script {
-                    // Use the 'withMaven' step to handle Maven configurations
-                    withMaven(maven: 'Maven') {
-                        sh 'mvn clean install test'
-                    }
+                // Use the 'withMaven' step to handle Maven configurations
+                withMaven(maven: 'Maven') {
+                    sh 'mvn clean install test'
                 }
             }
         }
 
         stage('Integration Tests') {
             steps {
-                script {
-                    // Add commands for integration tests if needed
-                }
+                // Add commands for integration tests if needed
             }
         }
 
         stage('Package') {
             steps {
-                script {
-                    // Add commands to package the application (e.g., create JAR or WAR)
-                }
+                // Add commands to package the application (e.g., create JAR or WAR)
             }
         }
 
         stage('Deploy to Test Environment') {
             steps {
-                script {
-                    // Add commands to deploy to a test environment
-                }
+                // Add commands to deploy to a test environment
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                script {
-                    // Add commands to deploy to production
-                }
+                // Add commands to deploy to production
             }
         }
     }
@@ -66,4 +56,3 @@ pipeline {
             echo 'Pipeline failed! Notify the team...'
         }
     }
-}

@@ -1,0 +1,11 @@
+# Ignore files generated during development
+node_modules
+npm-debug.log
+
+# Ignore configuration files with sensitive information
+config.json
+secrets.txt
+
+# Ignore build artifacts
+*.o
+*.obj
